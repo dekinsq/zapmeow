@@ -2,11 +2,11 @@
     "swagger": "2.0",
     "info": {
         "description": "API to handle multiple WhatsApp instances",
-        "title": "ZapMeow API",
+        "title": "WA-API",
         "contact": {},
         "version": "1.0"
     },
-    "host": "localhost:3000",
+    "host": "0.0.0.0:3000",
     "basePath": "/api",
     "paths": {
         "/proxy-check": {
@@ -554,6 +554,9 @@
                 "ip": {
                     "type": "string"
                 },
+                "ipinfo": {
+                    "$ref": "#/definitions/http.IPGeoInfo"
+                },
                 "success": {
                     "type": "boolean"
                 }
@@ -643,6 +646,44 @@
             "properties": {
                 "message": {
                     "$ref": "#/definitions/response.Message"
+                }
+            }
+        },
+        "http.IPGeoInfo": {
+            "type": "object",
+            "properties": {
+                "as": {
+                    "type": "string"
+                },
+                "city": {
+                    "type": "string"
+                },
+                "country": {
+                    "type": "string"
+                },
+                "countryCode": {
+                    "type": "string"
+                },
+                "isp": {
+                    "type": "string"
+                },
+                "lat": {
+                    "type": "number"
+                },
+                "lon": {
+                    "type": "number"
+                },
+                "org": {
+                    "type": "string"
+                },
+                "region": {
+                    "type": "string"
+                },
+                "regionName": {
+                    "type": "string"
+                },
+                "status": {
+                    "type": "string"
                 }
             }
         },

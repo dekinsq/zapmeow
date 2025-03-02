@@ -20,10 +20,10 @@ import (
 	"github.com/joho/godotenv"
 )
 
-// @title			ZapMeow API
+// @title			WA-API
 // @version		1.0
 // @description	API to handle multiple WhatsApp instances
-// @host			localhost:3000
+// @host			0.0.0.0:3000
 // @BasePath		/api
 func main() {
 	docs.SwaggerInfo.BasePath = "/api"

@@ -55,6 +55,8 @@ definitions:
     properties:
       ip:
         type: string
+      ipinfo:
+        $ref: '#/definitions/http.IPGeoInfo'
       success:
         type: boolean
     type: object
@@ -113,6 +115,31 @@ definitions:
       message:
         $ref: '#/definitions/response.Message'
     type: object
+  http.IPGeoInfo:
+    properties:
+      as:
+        type: string
+      city:
+        type: string
+      country:
+        type: string
+      countryCode:
+        type: string
+      isp:
+        type: string
+      lat:
+        type: number
+      lon:
+        type: number
+      org:
+        type: string
+      region:
+        type: string
+      regionName:
+        type: string
+      status:
+        type: string
+    type: object
   response.Message:
     properties:
       body:
@@ -156,11 +183,11 @@ definitions:
       query:
         type: string
     type: object
-host: localhost:3000
+host: 0.0.0.0:3000
 info:
   contact: {}
   description: API to handle multiple WhatsApp instances
-  title: ZapMeow API
+  title: WA-API
   version: "1.0"
 paths:
   /{instanceId}/chat/messages:

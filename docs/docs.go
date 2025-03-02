@@ -560,6 +560,9 @@ const docTemplate = `{
                 "ip": {
                     "type": "string"
                 },
+                "ipinfo": {
+                    "$ref": "#/definitions/http.IPGeoInfo"
+                },
                 "success": {
                     "type": "boolean"
                 }
@@ -652,6 +655,44 @@ const docTemplate = `{
                 }
             }
         },
+        "http.IPGeoInfo": {
+            "type": "object",
+            "properties": {
+                "as": {
+                    "type": "string"
+                },
+                "city": {
+                    "type": "string"
+                },
+                "country": {
+                    "type": "string"
+                },
+                "countryCode": {
+                    "type": "string"
+                },
+                "isp": {
+                    "type": "string"
+                },
+                "lat": {
+                    "type": "number"
+                },
+                "lon": {
+                    "type": "number"
+                },
+                "org": {
+                    "type": "string"
+                },
+                "region": {
+                    "type": "string"
+                },
+                "regionName": {
+                    "type": "string"
+                },
+                "status": {
+                    "type": "string"
+                }
+            }
+        },
         "response.Message": {
             "type": "object",
             "properties": {
@@ -724,10 +765,10 @@ const docTemplate = `{
 // SwaggerInfo holds exported Swagger Info so clients can modify it
 var SwaggerInfo = &swag.Spec{
 	Version:          "1.0",
-	Host:             "localhost:3000",
+	Host:             "0.0.0.0:3000",
 	BasePath:         "/api",
 	Schemes:          []string{},
-	Title:            "ZapMeow API",
+	Title:            "WA-API",
 	Description:      "API to handle multiple WhatsApp instances",
 	InfoInstanceName: "swagger",
 	SwaggerTemplate:  docTemplate,
