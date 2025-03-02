@@ -18,6 +18,8 @@ require (
 	gorm.io/gorm v1.25.9
 )
 
+replace go.mau.fi/whatsmeow => ../whatsmeow
+
 require (
 	github.com/KyleBanks/depth v1.2.1 // indirect
 	github.com/chenzhuoyu/iasm v0.9.1 // indirect
@@ -35,7 +37,7 @@ require (
 	github.com/onsi/ginkgo v1.16.5 // indirect
 	github.com/onsi/gomega v1.27.10 // indirect
 	github.com/rs/zerolog v1.33.0 // indirect
-	go.mau.fi/util v0.8.4 // indirect
+	go.mau.fi/util v0.8.5 // indirect
 	golang.org/x/tools v0.21.1-0.20240508182429-e35e4ccd0d2d // indirect
 )
 

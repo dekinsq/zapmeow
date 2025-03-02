@@ -23,12 +23,15 @@ import (
 // @title			ZapMeow API
 // @version		1.0
 // @description	API to handle multiple WhatsApp instances
-// @host			localhost:8900
+// @host			localhost:3000
 // @BasePath		/api
 func main() {
 	docs.SwaggerInfo.BasePath = "/api"
 
-	godotenv.Load()
+	err := godotenv.Load()
+	if err != nil {
+		return
+	}
 
 	cfg := config.Load()
 	if cfg.Environment == config.Production {
@@ -43,13 +46,14 @@ func main() {
 	wg.Add(1)
 	stopCh := make(chan struct{})
 
+	database := database.NewDatabase(cfg.DatabaseURL)
 	whatsApp := whatsapp.NewWhatsApp(cfg.DatabaseURL)
 	queue := queue.NewQueue(cfg.RedisAddr, cfg.RedisPassword)
 
-	database := database.NewDatabase(cfg.DatabaseURL)
-	err := database.RunMigrate(
+	err = database.RunMigrate(
 		&model.Account{},
 		&model.Message{},
+		&model.ProxyInfo{},
 	)
 	if err != nil {
 		logger.Fatal("Error when running gorm automigrate. ", err)
@@ -68,8 +72,10 @@ func main() {
 	// repository
 	messageRepo := repository.NewMessageRepository(app.Database)
 	accountRepo := repository.NewAccountRepository(app.Database)
+	proxyInfoRepo := repository.NewProxyInfoRepository(app.Database)
 
 	// service
+	proxyInfoService := service.NewProxyInfoService(proxyInfoRepo)
 	messageService := service.NewMessageService(messageRepo)
 	accountService := service.NewAccountService(accountRepo, messageService)
 	whatsAppService := service.NewWhatsAppService(
@@ -77,6 +83,7 @@ func main() {
 		messageService,
 		accountService,
 		whatsApp,
+		proxyInfoService,
 	)
 
 	// workers
@@ -92,6 +99,7 @@ func main() {
 		whatsAppService,
 		messageService,
 		accountService,
+		proxyInfoService,
 	)
 
 	logger.Info("Loading whatsapp instances")
@@ -102,7 +110,7 @@ func main() {
 
 	for _, account := range accounts {
 		logger.Info("Loading instance: ", account.InstanceID)
-		_, err := whatsAppService.GetInstance(account.InstanceID)
+		_, err := whatsAppService.GetInstance(account.InstanceID, "")
 		if err != nil {
 			logger.Error("Error getting instance. ", err)
 		}

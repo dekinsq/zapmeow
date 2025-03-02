@@ -104,8 +104,8 @@ type IsOnWhatsAppResponse struct {
 }
 
 type WhatsApp interface {
-	CreateInstance(id string) *Instance
-	CreateInstanceFromDevice(id string, jid JID) *Instance
+	CreateInstance(id string, proxyInfo string) *Instance
+	CreateInstanceFromDevice(id string, jid JID, proxyInfo string) *Instance
 	IsLoggedIn(instance *Instance) bool
 	IsConnected(instance *Instance) bool
 	Disconnect(instance *Instance)
@@ -141,8 +141,8 @@ func NewWhatsApp(databasePath string) *whatsApp {
 	return &whatsApp{container: container}
 }
 
-func (w *whatsApp) CreateInstance(id string) *Instance {
-	client := w.createClient(w.container.NewDevice())
+func (w *whatsApp) CreateInstance(id string, proxyInfo string) *Instance {
+	client := w.createClient(w.container.NewDevice(), proxyInfo)
 	return &Instance{
 		ID:              id,
 		Client:          client,
@@ -150,7 +150,7 @@ func (w *whatsApp) CreateInstance(id string) *Instance {
 	}
 }
 
-func (w *whatsApp) CreateInstanceFromDevice(id string, jid JID) *Instance {
+func (w *whatsApp) CreateInstanceFromDevice(id string, jid JID, proxyInfo string) *Instance {
 	device, _ := w.container.GetDevice(JID{
 		User:       jid.User,
 		RawAgent:   jid.RawAgent,
@@ -159,14 +159,14 @@ func (w *whatsApp) CreateInstanceFromDevice(id string, jid JID) *Instance {
 		Integrator: jid.Integrator,
 	})
 	if device != nil {
-		client := w.createClient(device)
+		client := w.createClient(device, proxyInfo)
 		return &Instance{
 			ID:              id,
 			Client:          client,
 			QrCodeRateLimit: 10,
 		}
 	}
-	return w.CreateInstance(id)
+	return w.CreateInstance(id, proxyInfo)
 }
 
 func (w *whatsApp) IsLoggedIn(instance *Instance) bool {
@@ -370,7 +370,7 @@ func (w *whatsApp) ParseEventMessage(instance *Instance, message *events.Message
 	return base, nil
 }
 
-func (w *whatsApp) createClient(deviceStore *store.Device) *whatsmeow.Client {
+func (w *whatsApp) createClient(deviceStore *store.Device, proxyInfo string) *whatsmeow.Client {
 	cfg := config.Load()
 
 	var level = "DEBUG"
@@ -378,7 +378,20 @@ func (w *whatsApp) createClient(deviceStore *store.Device) *whatsmeow.Client {
 		level = "ERROR"
 	}
 	log := waLog.Stdout("Client", level, true)
-	return whatsmeow.NewClient(deviceStore, log)
+	//return whatsmeow.NewClient(deviceStore, log)
+	var cli = whatsmeow.NewClient(deviceStore, log)
+	// proxyInfo 不为空时设置代理
+	if proxyInfo != "" {
+		log.Infof("设置代理信息", proxyInfo)
+		err := cli.SetProxyAddress(proxyInfo)
+		if err != nil {
+			return nil
+		}
+	} else {
+		log.Infof("未设置代理")
+	}
+	//_ = cli.SetProxyAddress("socks5://nMGjxasWCgfex3fJ:wifi;hk;;;@proxy.soax.com:9000")
+	return cli
 }
 
 func (w *whatsApp) uploadMedia(instance *Instance, media *dataurl.DataURL, mediaType MediaType) (*UploadResponse, error) {

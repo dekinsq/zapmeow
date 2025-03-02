@@ -13,4 +13,5 @@ type Account struct {
 	Status     string
 	WasSynced  bool
 	InstanceID string
+	Proxy      string
 }

@@ -51,9 +51,9 @@ To get started with the ZapMeow API, follow these simple steps:
     ```
 
 5. **Access Swagger Documentation**: You can access the Swagger documentation by visiting the following URL in your web browser:
-
+   swag init
     ```
-    http://localhost:8900/api/swagger/index.html
+    http://localhost:3000/api/swagger/index.html
     ```
 
     The Swagger documentation provides detailed information about the available API endpoints, request parameters, and response formats.

@@ -48,7 +48,7 @@ func NewSendAudioMessageHandler(
 //	@Router			/{instanceId}/chat/send/audio [post]
 func (h *sendAudioMessageHandler) Handler(c *gin.Context) {
 	instanceID := c.Param("instanceId")
-	instance, err := h.whatsAppService.GetInstance(instanceID)
+	instance, err := h.whatsAppService.GetInstance(instanceID, "")
 	if err != nil {
 		response.ErrorResponse(c, http.StatusInternalServerError, err.Error())
 		return

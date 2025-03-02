@@ -44,7 +44,7 @@ func NewGetMessagesHandler(
 //	@Router			/{instanceId}/chat/messages [post]
 func (h *getMessagesHandler) Handler(c *gin.Context) {
 	instanceID := c.Param("instanceId")
-	instance, err := h.whatsAppService.GetInstance(instanceID)
+	instance, err := h.whatsAppService.GetInstance(instanceID, "")
 	if err != nil {
 		response.ErrorResponse(c, http.StatusInternalServerError, err.Error())
 		return

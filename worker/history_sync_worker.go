@@ -74,7 +74,7 @@ func (q *historySyncWorker) processHistorySync(queue queue.HistorySyncQueue) err
 		return err
 	}
 
-	instance, err := q.whatsAppService.GetInstance(data.InstanceID)
+	instance, err := q.whatsAppService.GetInstance(data.InstanceID, "")
 	if err != nil {
 		return err
 	}

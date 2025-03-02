@@ -46,6 +46,23 @@ definitions:
       status:
         type: string
     type: object
+  handler.proxyCheckRequest:
+    properties:
+      proxy:
+        type: string
+    type: object
+  handler.proxyCheckResponse:
+    properties:
+      ip:
+        type: string
+      success:
+        type: boolean
+    type: object
+  handler.proxyRequest:
+    properties:
+      proxy:
+        type: string
+    type: object
   handler.sendAudioMessageBody:
     properties:
       base64:
@@ -54,6 +71,20 @@ definitions:
         type: string
     type: object
   handler.sendAudioMessageResponse:
+    properties:
+      message:
+        $ref: '#/definitions/response.Message'
+    type: object
+  handler.sendDocumentMessageBody:
+    properties:
+      base64:
+        type: string
+      filename:
+        type: string
+      phone:
+        type: string
+    type: object
+  handler.sendDocumentMessageResponse:
     properties:
       message:
         $ref: '#/definitions/response.Message'
@@ -125,7 +156,7 @@ definitions:
       query:
         type: string
     type: object
-host: localhost:8900
+host: localhost:3000
 info:
   contact: {}
   description: API to handle multiple WhatsApp instances
@@ -184,6 +215,33 @@ paths:
           schema:
             $ref: '#/definitions/handler.sendAudioMessageResponse'
       summary: Send Audio Message on WhatsApp
+      tags:
+      - WhatsApp Chat
+  /{instanceId}/chat/send/document:
+    post:
+      consumes:
+      - application/json
+      description: Sends an Document message on WhatsApp using the specified instance.
+      parameters:
+      - description: Instance ID
+        in: path
+        name: instanceId
+        required: true
+        type: string
+      - description: Document message body
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/handler.sendDocumentMessageBody'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Message Send Response
+          schema:
+            $ref: '#/definitions/handler.sendDocumentMessageResponse'
+      summary: Send Document Message on WhatsApp
       tags:
       - WhatsApp Chat
   /{instanceId}/chat/send/image:
@@ -338,7 +396,9 @@ paths:
       tags:
       - WhatsApp Profile
   /{instanceId}/qrcode:
-    get:
+    post:
+      consumes:
+      - application/json
       description: Returns a QR code to initiate WhatsApp login.
       parameters:
       - description: Instance ID
@@ -346,6 +406,11 @@ paths:
         name: instanceId
         required: true
         type: string
+      - description: Text message body
+        in: body
+        name: data
+        schema:
+          $ref: '#/definitions/handler.proxyRequest'
       produces:
       - application/json
       responses:
@@ -377,4 +442,26 @@ paths:
       summary: Get WhatsApp Instance Status
       tags:
       - WhatsApp Status
+  /proxy-check:
+    post:
+      consumes:
+      - application/json
+      description: Proxy Check
+      parameters:
+      - description: Text message body
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/handler.proxyCheckRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: ProxyCheckResponse
+          schema:
+            $ref: '#/definitions/handler.proxyCheckResponse'
+      summary: Proxy Check
+      tags:
+      - Proxy Check
 swagger: "2.0"

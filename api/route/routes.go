@@ -23,6 +23,7 @@ func SetupRouter(
 	whatsAppService service.WhatsAppService,
 	messageService service.MessageService,
 	accountService service.AccountService,
+	proxyInfoService service.ProxyInfoService,
 ) *gin.Engine {
 	router := makeEngine(app.Config)
 
@@ -31,6 +32,7 @@ func SetupRouter(
 		whatsAppService,
 		messageService,
 		accountService,
+		proxyInfoService,
 	)
 	logoutHandler := handler.NewLogoutHandler(
 		app,
@@ -72,9 +74,11 @@ func SetupRouter(
 		messageService,
 	)
 
+	proxyCheckHandler := handler.NewProxyCheckHandler()
+
 	group := router.Group("/api")
 
-	group.GET("/:instanceId/qrcode", getQrCodeHandler.Handler)
+	group.POST("/:instanceId/qrcode", getQrCodeHandler.Handler)
 	group.GET("/:instanceId/status", getStatusHandler.Handler)
 	group.GET("/:instanceId/profile", getProfileInfoHandler.Handler)
 	group.GET("/:instanceId/contact/info", getContactInfoHandler.Handler)
@@ -85,6 +89,7 @@ func SetupRouter(
 	group.POST("/:instanceId/chat/send/image", sendImageMessageHandler.Handler)
 	group.POST("/:instanceId/chat/send/audio", sendAudioMessageHandler.Handler)
 	group.POST("/:instanceId/chat/send/document", sendDocumentMessageHandler.Handler)
+	group.POST("/proxy-check", proxyCheckHandler.Handler)
 	group.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerfiles.Handler))
 
 	return router

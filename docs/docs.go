@@ -15,6 +15,40 @@ const docTemplate = `{
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
     "paths": {
+        "/proxy-check": {
+            "post": {
+                "description": "Proxy Check",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Proxy Check"
+                ],
+                "summary": "Proxy Check",
+                "parameters": [
+                    {
+                        "description": "Text message body",
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/handler.proxyCheckRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "ProxyCheckResponse",
+                        "schema": {
+                            "$ref": "#/definitions/handler.proxyCheckResponse"
+                        }
+                    }
+                }
+            }
+        },
         "/{instanceId}/chat/messages": {
             "post": {
                 "description": "Returns chat messages from the specified WhatsApp instance.",
@@ -92,6 +126,47 @@ const docTemplate = `{
                         "description": "Message Send Response",
                         "schema": {
                             "$ref": "#/definitions/handler.sendAudioMessageResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/{instanceId}/chat/send/document": {
+            "post": {
+                "description": "Sends an Document message on WhatsApp using the specified instance.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "WhatsApp Chat"
+                ],
+                "summary": "Send Document Message on WhatsApp",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Instance ID",
+                        "name": "instanceId",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "Document message body",
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/handler.sendDocumentMessageBody"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Message Send Response",
+                        "schema": {
+                            "$ref": "#/definitions/handler.sendDocumentMessageResponse"
                         }
                     }
                 }
@@ -325,8 +400,11 @@ const docTemplate = `{
             }
         },
         "/{instanceId}/qrcode": {
-            "get": {
+            "post": {
                 "description": "Returns a QR code to initiate WhatsApp login.",
+                "consumes": [
+                    "application/json"
+                ],
                 "produces": [
                     "application/json"
                 ],
@@ -341,6 +419,14 @@ const docTemplate = `{
                         "name": "instanceId",
                         "in": "path",
                         "required": true
+                    },
+                    {
+                        "description": "Text message body",
+                        "name": "data",
+                        "in": "body",
+                        "schema": {
+                            "$ref": "#/definitions/handler.proxyRequest"
+                        }
                     }
                 ],
                 "responses": {
@@ -460,6 +546,33 @@ const docTemplate = `{
                 }
             }
         },
+        "handler.proxyCheckRequest": {
+            "type": "object",
+            "properties": {
+                "proxy": {
+                    "type": "string"
+                }
+            }
+        },
+        "handler.proxyCheckResponse": {
+            "type": "object",
+            "properties": {
+                "ip": {
+                    "type": "string"
+                },
+                "success": {
+                    "type": "boolean"
+                }
+            }
+        },
+        "handler.proxyRequest": {
+            "type": "object",
+            "properties": {
+                "proxy": {
+                    "type": "string"
+                }
+            }
+        },
         "handler.sendAudioMessageBody": {
             "type": "object",
             "properties": {
@@ -472,6 +585,28 @@ const docTemplate = `{
             }
         },
         "handler.sendAudioMessageResponse": {
+            "type": "object",
+            "properties": {
+                "message": {
+                    "$ref": "#/definitions/response.Message"
+                }
+            }
+        },
+        "handler.sendDocumentMessageBody": {
+            "type": "object",
+            "properties": {
+                "base64": {
+                    "type": "string"
+                },
+                "filename": {
+                    "type": "string"
+                },
+                "phone": {
+                    "type": "string"
+                }
+            }
+        },
+        "handler.sendDocumentMessageResponse": {
             "type": "object",
             "properties": {
                 "message": {
@@ -589,7 +724,7 @@ const docTemplate = `{
 // SwaggerInfo holds exported Swagger Info so clients can modify it
 var SwaggerInfo = &swag.Spec{
 	Version:          "1.0",
-	Host:             "localhost:8900",
+	Host:             "localhost:3000",
 	BasePath:         "/api",
 	Schemes:          []string{},
 	Title:            "ZapMeow API",

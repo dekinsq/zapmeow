@@ -17,14 +17,15 @@ import (
 )
 
 type whatsAppService struct {
-	app            *zapmeow.ZapMeow
-	messageService MessageService
-	accountService AccountService
-	whatsApp       whatsapp.WhatsApp
+	app              *zapmeow.ZapMeow
+	messageService   MessageService
+	accountService   AccountService
+	whatsApp         whatsapp.WhatsApp
+	proxyInfoService ProxyInfoService
 }
 
 type WhatsAppService interface {
-	GetInstance(instanceID string) (*whatsapp.Instance, error)
+	GetInstance(instanceID string, proxyInfo string) (*whatsapp.Instance, error)
 	IsAuthenticated(instance *whatsapp.Instance) bool
 	Logout(instance *whatsapp.Instance) error
 	SendTextMessage(instance *whatsapp.Instance, jid whatsapp.JID, text string) (whatsapp.MessageResponse, error)
@@ -41,12 +42,14 @@ func NewWhatsAppService(
 	messageService MessageService,
 	accountService AccountService,
 	whatsApp whatsapp.WhatsApp,
+	proxyInfoService ProxyInfoService,
 ) *whatsAppService {
 	return &whatsAppService{
-		app:            app,
-		messageService: messageService,
-		accountService: accountService,
-		whatsApp:       whatsApp,
+		app:              app,
+		messageService:   messageService,
+		accountService:   accountService,
+		whatsApp:         whatsApp,
+		proxyInfoService: proxyInfoService,
 	}
 }
 
@@ -98,13 +101,21 @@ func (w *whatsAppService) IsOnWhatsApp(instance *whatsapp.Instance, phones []str
 	return w.whatsApp.IsOnWhatsApp(instance, phones)
 }
 
-func (w *whatsAppService) GetInstance(instanceID string) (*whatsapp.Instance, error) {
+func (w *whatsAppService) GetInstance(instanceID string, proxyInfo string) (*whatsapp.Instance, error) {
 	instance := w.app.LoadInstance(instanceID)
 	if instance != nil {
 		return instance, nil
 	}
 
-	instance, err := w.gerOrCreateInstance(instanceID)
+	// 拦截创建instance入口，增加代理设置
+	proxyInfoModel, _ := w.proxyInfoService.GetProxyInfo(instanceID)
+	if proxyInfoModel != nil && proxyInfoModel.Proxy != "" && len(proxyInfoModel.Proxy) > 10 {
+		proxyInfo = proxyInfoModel.Proxy
+	} else {
+		logger.Debug("未设置代理信息")
+	}
+
+	instance, err := w.gerOrCreateInstance(instanceID, proxyInfo)
 	if err != nil {
 		return nil, err
 	}
@@ -150,7 +161,7 @@ func (w *whatsAppService) GetInstance(instanceID string) (*whatsapp.Instance, er
 					logger.Error("Failed to update account. ", err)
 				}
 
-				w.deleteInstance(instance)
+				_ = w.deleteInstance(instance)
 			}
 
 		}
@@ -182,17 +193,18 @@ func (w *whatsAppService) Logout(instance *whatsapp.Instance) error {
 	return w.deleteInstance(instance)
 }
 
-func (w *whatsAppService) gerOrCreateInstance(instanceID string) (*whatsapp.Instance, error) {
+func (w *whatsAppService) gerOrCreateInstance(instanceID string, proxyInfo string) (*whatsapp.Instance, error) {
 	account, err := w.accountService.GetAccountByInstanceID(instanceID)
 	if err != nil {
 		return nil, err
 	}
 
 	if account == nil || (account != nil && account.Status != "CONNECTED") {
-		instance := w.whatsApp.CreateInstance(instanceID)
+		instance := w.whatsApp.CreateInstance(instanceID, proxyInfo)
 
 		err := w.accountService.CreateAccount(&model.Account{
 			InstanceID: instanceID,
+			Proxy:      proxyInfo,
 		})
 		if err != nil {
 			return nil, err
@@ -210,6 +222,7 @@ func (w *whatsAppService) gerOrCreateInstance(instanceID string) (*whatsapp.Inst
 	instance := w.whatsApp.CreateInstanceFromDevice(
 		instanceID,
 		jid,
+		proxyInfo,
 	)
 	return instance, nil
 }
@@ -275,7 +288,7 @@ func (w *whatsAppService) handleConnected(instanceID string) {
 }
 
 func (w *whatsAppService) handleLoggedOut(instanceID string) {
-	instance, err := w.GetInstance(instanceID)
+	instance, err := w.GetInstance(instanceID, "")
 	if err != nil {
 		logger.Error(err)
 		return
