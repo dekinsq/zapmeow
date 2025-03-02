@@ -1,6 +1,7 @@
 data.db
 zapmeow.db
 storage
+.env
 .env.production
 main
 .zapmeow
