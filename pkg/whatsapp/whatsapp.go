@@ -383,7 +383,10 @@ func (w *whatsApp) createClient(deviceStore *store.Device, proxyInfo string) *wh
 	// proxyInfo 不为空时设置代理
 	if proxyInfo != "" {
 		log.Infof("设置代理信息:%s", proxyInfo)
-		err := cli.SetProxyAddress(proxyInfo)
+		err := cli.SetProxyAddress(proxyInfo, whatsmeow.SetProxyOptions{
+			NoWebsocket: false,
+			NoMedia:     false,
+		})
 		if err != nil {
 			return nil
 		}
