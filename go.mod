@@ -18,7 +18,7 @@ require (
 	gorm.io/gorm v1.25.9
 )
 
-replace go.mau.fi/whatsmeow => ../whatsmeow
+//replace go.mau.fi/whatsmeow => ../whatsmeow
 
 require (
 	github.com/KyleBanks/depth v1.2.1 // indirect
@@ -65,7 +65,7 @@ require (
 	go.mau.fi/libsignal v0.1.2 // indirect
 	golang.org/x/arch v0.7.0 // indirect
 	golang.org/x/crypto v0.33.0 // indirect
-	golang.org/x/net v0.35.0 // indirect
+	golang.org/x/net v0.35.0
 	golang.org/x/sys v0.30.0 // indirect
 	golang.org/x/text v0.22.0 // indirect
 	gopkg.in/yaml.v3 v3.0.1 // indirect
