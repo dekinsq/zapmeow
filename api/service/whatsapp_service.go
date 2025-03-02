@@ -112,7 +112,7 @@ func (w *whatsAppService) GetInstance(instanceID string, proxyInfo string) (*wha
 	if proxyInfoModel != nil && proxyInfoModel.Proxy != "" && len(proxyInfoModel.Proxy) > 10 {
 		proxyInfo = proxyInfoModel.Proxy
 	} else {
-		logger.Debug("未设置代理信息")
+		logger.Error("未设置代理信息:%s", instanceID)
 	}
 
 	instance, err := w.gerOrCreateInstance(instanceID, proxyInfo)
