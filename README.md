@@ -59,3 +59,7 @@ To get started with the ZapMeow API, follow these simple steps:
     The Swagger documentation provides detailed information about the available API endpoints, request parameters, and response formats.
 
 Now, your ZapMeow API is up and running, ready for you to start interacting with WhatsApp instances programmatically.
+
+
+docker build -t wa-app:latest .
+docker run --rm wa-app:latest
