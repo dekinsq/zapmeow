@@ -17,6 +17,8 @@ github.com/coreos/go-systemd/v22 v22.5.0/go.mod h1:Y58oyj3AT4RCenI/lSvhwexgC+NSV
 github.com/davecgh/go-spew v1.1.0/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
 github.com/davecgh/go-spew v1.1.1 h1:vj9j/u1bqnvCEfJOwUhtlOARqs3+rkHYY13jYWTU97c=
 github.com/davecgh/go-spew v1.1.1/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
+github.com/dekinsq/whatsmeow v0.0.0-20250302101242-ea46b64486ab h1:Xm+VrbAZy43kOPweudItJtjOsRRO3nDjA6jFVmT+TN4=
+github.com/dekinsq/whatsmeow v0.0.0-20250302101242-ea46b64486ab/go.mod h1:6hRrUtDWI2wTRClOd6m17GwrFE2a8/p5R4pjJsIVn+U=
 github.com/fsnotify/fsnotify v1.4.7/go.mod h1:jwhsz4b93w/PPRr/qN1Yymfu8t87LnFCMoQvtojpjFo=
 github.com/fsnotify/fsnotify v1.4.9 h1:hsms1Qyu0jgnwNXIxa+/V/PDsU6CfLf6CNO8H7IWoS4=
 github.com/fsnotify/fsnotify v1.4.9/go.mod h1:znqG4EE+3YCdAaPaxE2ZRY/06pZUdp0tY4IgpuI1SZQ=
@@ -158,8 +160,6 @@ go.mau.fi/libsignal v0.1.2 h1:Vs16DXWxSKyzVtI+EEXLCSy5pVWzzCzp/2eqFGvLyP0=
 go.mau.fi/libsignal v0.1.2/go.mod h1:JpnLSSJptn/s1sv7I56uEMywvz8x4YzxeF5OzdPb6PE=
 go.mau.fi/util v0.8.5 h1:PwCAAtcfK0XxZ4sdErJyfBMkTEWoQU33aB7QqDDzQRI=
 go.mau.fi/util v0.8.5/go.mod h1:Ycug9mrbztlahHPEJ6H5r8Nu/xqZaWbE5vPHVWmfz6M=
-go.mau.fi/whatsmeow v0.0.0-20250212143635-53482eea9bc9 h1:hIjJFp6d4SHDVrpM41/j3r0Gm3rouaC1ejBC5crx0Kk=
-go.mau.fi/whatsmeow v0.0.0-20250212143635-53482eea9bc9/go.mod h1:RbUaH+S41Hecr1P64qm9izu22O3CB+GaepAh3epq3Fg=
 golang.org/x/arch v0.0.0-20210923205945-b76863e36670/go.mod h1:5om86z9Hs0C8fWVUuoMHwpExlXzs5Tkyp9hOrfG7pp8=
 golang.org/x/arch v0.7.0 h1:pskyeJh/3AmoQ8CPE95vxHLqp1G1GfGNXTmcl9NEKTc=
 golang.org/x/arch v0.7.0/go.mod h1:FEVrYAQjsQXMVJ1nsMoVVXPZg6p2JE2mx8psSWTDQys=

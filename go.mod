@@ -19,6 +19,7 @@ require (
 )
 
 //replace go.mau.fi/whatsmeow => ../whatsmeow
+replace go.mau.fi/whatsmeow => github.com/dekinsq/whatsmeow v0.0.0-20250302101242-ea46b64486ab
 
 require (
 	github.com/KyleBanks/depth v1.2.1 // indirect

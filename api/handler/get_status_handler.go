@@ -53,7 +53,9 @@ func (h *getStatusHandler) Handler(c *gin.Context) {
 		return
 	}
 
-	proxyInfo, _ := h.proxyInfoService.GetProxyInfo(instanceID)
+	proxyInfo := instance.Client.GetProxyAddress()
+
+	//proxyInfo, _ := h.proxyInfoService.GetProxyInfo(instanceID)
 
 	h.app.Mutex.Lock()
 	defer h.app.Mutex.Unlock()
@@ -79,6 +81,6 @@ func (h *getStatusHandler) Handler(c *gin.Context) {
 
 	response.Response(c, http.StatusOK, getStatusResponse{
 		Status: status,
-		Proxy:  proxyInfo.Proxy,
+		Proxy:  proxyInfo,
 	})
 }

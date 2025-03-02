@@ -84,7 +84,7 @@ func (h *getQrCodeHandler) Handler(c *gin.Context) {
 	}
 
 	if account == nil {
-		response.ErrorResponse(c, http.StatusInternalServerError, "Account not foun")
+		response.ErrorResponse(c, http.StatusInternalServerError, "Account not found")
 		return
 	}
 
