@@ -17,7 +17,7 @@ rm -rf /usr/local/go 2>/dev/null || true
 echo ">>> 下载Go ${GO_VERSION}..."
 DOWNLOAD_URL="https://dl.google.com/go/go${GO_VERSION}.linux-amd64.tar.gz"
 
-if ! wget -q --show-progress --progress=bar:force "$DOWNLOAD_URL" -O /tmp/go.tar.gz; then
+if ! wget -q --progress=bar:force "$DOWNLOAD_URL" -O /tmp/go.tar.gz; then
     echo "下载失败，请检查："
     echo "1. 版本号是否存在（https://go.dev/dl/）"
     echo "2. 网络是否能访问dl.google.com"
