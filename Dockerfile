@@ -13,8 +13,8 @@ RUN go mod download
 
 ENV CGO_ENABLED=1
 ENV CGO_CFLAGS="-D_LARGEFILE64_SOURCE"
-RUN go build -o server cmd/server/main.go
+RUN go build -o server main.go
 
-EXPOSE 8900
+EXPOSE 3000
 
 CMD ["./server"]
