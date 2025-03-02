@@ -43,7 +43,7 @@ func Request(url string, data map[string]interface{}) error {
 	client := &http.Client{}
 	resp, err := client.Do(req)
 	if err != nil {
-		return errors.New("Request returned an unexpected status code")
+		return errors.New("request returned an unexpected status code")
 	}
 
 	defer resp.Body.Close()
