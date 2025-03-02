@@ -53,3 +53,12 @@ func (a *ZapMeow) StoreInstance(instanceID string, instance *whatsapp.Instance) 
 func (a *ZapMeow) DeleteInstance(instanceID string) {
 	a.Instances.Delete(instanceID)
 }
+
+func (a *ZapMeow) GetAllInstances() map[string]*whatsapp.Instance {
+	instances := make(map[string]*whatsapp.Instance)
+	a.Instances.Range(func(key, value interface{}) bool {
+		instances[key.(string)] = value.(*whatsapp.Instance)
+		return true
+	})
+	return instances
+}

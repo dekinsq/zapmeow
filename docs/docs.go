@@ -15,6 +15,29 @@ const docTemplate = `{
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
     "paths": {
+        "/manage-instance": {
+            "get": {
+                "description": "Manage Instance",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Manage Instance"
+                ],
+                "summary": "Manage Instance",
+                "responses": {
+                    "200": {
+                        "description": "ManageInstanceResponse",
+                        "schema": {
+                            "$ref": "#/definitions/handler.manageInstanceResponse"
+                        }
+                    }
+                }
+            }
+        },
         "/proxy-check": {
             "post": {
                 "description": "Proxy Check",
@@ -541,8 +564,22 @@ const docTemplate = `{
         "handler.getStatusResponse": {
             "type": "object",
             "properties": {
+                "proxy": {
+                    "type": "string"
+                },
                 "status": {
                     "type": "string"
+                }
+            }
+        },
+        "handler.manageInstanceResponse": {
+            "type": "object",
+            "properties": {
+                "instances": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/handler.whatsAppInstanceInfo"
+                    }
                 }
             }
         },
@@ -652,6 +689,21 @@ const docTemplate = `{
             "properties": {
                 "message": {
                     "$ref": "#/definitions/response.Message"
+                }
+            }
+        },
+        "handler.whatsAppInstanceInfo": {
+            "type": "object",
+            "properties": {
+                "connected": {
+                    "type": "boolean"
+                },
+                "instance_id": {
+                    "type": "string"
+                },
+                "proxy": {
+                    "description": "Client     *whatsapp.Instance ` + "`" + `json:\"client\"` + "`" + `",
+                    "type": "string"
                 }
             }
         },

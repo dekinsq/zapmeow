@@ -76,6 +76,7 @@ func SetupRouter(
 	)
 
 	proxyCheckHandler := handler.NewProxyCheckHandler()
+	manageInstanceHandler := handler.NewManageInstanceHandler(app)
 
 	group := router.Group("/api")
 
@@ -91,6 +92,9 @@ func SetupRouter(
 	group.POST("/:instanceId/chat/send/audio", sendAudioMessageHandler.Handler)
 	group.POST("/:instanceId/chat/send/document", sendDocumentMessageHandler.Handler)
 	group.POST("/proxy-check", proxyCheckHandler.Handler)
+
+	group.GET("/manage-instance/all", manageInstanceHandler.Handler)
+
 	group.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerfiles.Handler))
 
 	return router

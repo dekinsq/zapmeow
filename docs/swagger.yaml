@@ -43,8 +43,17 @@ definitions:
     type: object
   handler.getStatusResponse:
     properties:
+      proxy:
+        type: string
       status:
         type: string
+    type: object
+  handler.manageInstanceResponse:
+    properties:
+      instances:
+        items:
+          $ref: '#/definitions/handler.whatsAppInstanceInfo'
+        type: array
     type: object
   handler.proxyCheckRequest:
     properties:
@@ -114,6 +123,16 @@ definitions:
     properties:
       message:
         $ref: '#/definitions/response.Message'
+    type: object
+  handler.whatsAppInstanceInfo:
+    properties:
+      connected:
+        type: boolean
+      instance_id:
+        type: string
+      proxy:
+        description: Client     *whatsapp.Instance `json:"client"`
+        type: string
     type: object
   http.IPGeoInfo:
     properties:
@@ -469,6 +488,21 @@ paths:
       summary: Get WhatsApp Instance Status
       tags:
       - WhatsApp Status
+  /manage-instance:
+    get:
+      consumes:
+      - application/json
+      description: Manage Instance
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: ManageInstanceResponse
+          schema:
+            $ref: '#/definitions/handler.manageInstanceResponse'
+      summary: Manage Instance
+      tags:
+      - Manage Instance
   /proxy-check:
     post:
       consumes:

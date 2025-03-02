@@ -358,3 +358,7 @@ func (w *whatsAppService) handleMessage(instanceId string, evt *events.Message) 
 		logger.Error("Failed to send webhook request. ", err)
 	}
 }
+
+func (w *whatsAppService) GetAllInstance() map[string]*whatsapp.Instance {
+	return w.app.GetAllInstances()
+}

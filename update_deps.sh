@@ -12,7 +12,7 @@ PSEUDO_VERSION="v0.0.0-${COMMIT_DATE}-${LATEST_COMMIT:0:12}"
 sed -i "s|replace go.mau.fi/whatsmeow => github.com/dekinsq/whatsmeow.*|replace go.mau.fi/whatsmeow => github.com/dekinsq/whatsmeow $PSEUDO_VERSION|" go.mod
 
 # 清理并同步
-go clean -modcache
+#go clean -modcache
 GOPROXY=direct go get -u github.com/dekinsq/whatsmeow@$PSEUDO_VERSION
 go mod tidy
 
