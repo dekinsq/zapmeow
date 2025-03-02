@@ -6,7 +6,7 @@
         "contact": {},
         "version": "1.0"
     },
-    "host": "0.0.0.0:3000",
+    "host": "47.236.178.74:3000",
     "basePath": "/api",
     "paths": {
         "/proxy-check": {
