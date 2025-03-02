@@ -11,23 +11,27 @@ import (
 
 type getStatusResponse struct {
 	Status string `json:"status"`
+	Proxy  string `json:"proxy"`
 }
 
 type getStatusHandler struct {
-	app             *zapmeow.ZapMeow
-	whatsAppService service.WhatsAppService
-	accountService  service.AccountService
+	app              *zapmeow.ZapMeow
+	whatsAppService  service.WhatsAppService
+	accountService   service.AccountService
+	proxyInfoService service.ProxyInfoService
 }
 
 func NewGetStatusHandler(
 	app *zapmeow.ZapMeow,
 	whatsAppService service.WhatsAppService,
 	accountService service.AccountService,
+	proxyInfoService service.ProxyInfoService,
 ) *getStatusHandler {
 	return &getStatusHandler{
-		app:             app,
-		whatsAppService: whatsAppService,
-		accountService:  accountService,
+		app:              app,
+		whatsAppService:  whatsAppService,
+		accountService:   accountService,
+		proxyInfoService: proxyInfoService,
 	}
 }
 
@@ -48,6 +52,8 @@ func (h *getStatusHandler) Handler(c *gin.Context) {
 		response.ErrorResponse(c, http.StatusInternalServerError, err.Error())
 		return
 	}
+
+	proxyInfo, _ := h.proxyInfoService.GetProxyInfo(instanceID)
 
 	h.app.Mutex.Lock()
 	defer h.app.Mutex.Unlock()
@@ -73,5 +79,6 @@ func (h *getStatusHandler) Handler(c *gin.Context) {
 
 	response.Response(c, http.StatusOK, getStatusResponse{
 		Status: status,
+		Proxy:  proxyInfo.Proxy,
 	})
 }

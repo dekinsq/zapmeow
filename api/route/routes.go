@@ -43,6 +43,7 @@ func SetupRouter(
 		app,
 		whatsAppService,
 		accountService,
+		proxyInfoService,
 	)
 	getProfileInfoHandler := handler.NewGetProfileInfoHandler(
 		whatsAppService,
