@@ -23,7 +23,7 @@ import (
 // @title			WA-API
 // @version		1.0
 // @description	API to handle multiple WhatsApp instances
-// @host			0.0.0.0:3000
+// @host			47.236.178.74:3000
 // @BasePath		/api
 func main() {
 	docs.SwaggerInfo.BasePath = "/api"
