@@ -9,7 +9,7 @@
     "host": "47.236.178.74:3000",
     "basePath": "/api",
     "paths": {
-        "/manage-instance": {
+        "/manage-instance/all": {
             "get": {
                 "description": "Manage Instance",
                 "consumes": [

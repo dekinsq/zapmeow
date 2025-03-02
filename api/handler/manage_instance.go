@@ -34,7 +34,7 @@ func NewManageInstanceHandler(app *zapmeow.ZapMeow) *manageInstanceHandler {
 //	@Accept			json
 //	@Produce		json
 //	@Success		200	{object}	manageInstanceResponse	"ManageInstanceResponse"
-//	@Router			/manage-instance [get]
+//	@Router			/manage-instance/all [get]
 func (h *manageInstanceHandler) Handler(c *gin.Context) {
 	instances := make([]whatsAppInstanceInfo, 0)
 	for instanceID, instance := range h.app.GetAllInstances() {

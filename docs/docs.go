@@ -15,7 +15,7 @@ const docTemplate = `{
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
     "paths": {
-        "/manage-instance": {
+        "/manage-instance/all": {
             "get": {
                 "description": "Manage Instance",
                 "consumes": [

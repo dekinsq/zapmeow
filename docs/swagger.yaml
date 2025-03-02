@@ -488,7 +488,7 @@ paths:
       summary: Get WhatsApp Instance Status
       tags:
       - WhatsApp Status
-  /manage-instance:
+  /manage-instance/all:
     get:
       consumes:
       - application/json
