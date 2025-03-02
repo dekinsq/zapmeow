@@ -1,4 +1,5 @@
 data.db
+zapmeow.db
 storage
 .env.production
 main
