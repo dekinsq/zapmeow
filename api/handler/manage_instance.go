@@ -10,6 +10,7 @@ type whatsAppInstanceInfo struct {
 	//Client     *whatsapp.Instance `json:"client"`
 	ProxyInfo string `json:"proxy"`
 	Connected bool   `json:"connected"`
+	LoggedIn  bool   `json:"logged_in"`
 }
 
 type manageInstanceResponse struct {
@@ -42,6 +43,7 @@ func (h *manageInstanceHandler) Handler(c *gin.Context) {
 			InstanceID: instanceID,
 			ProxyInfo:  instance.Client.GetProxyAddress(),
 			Connected:  instance.Client.IsConnected(),
+			LoggedIn:   instance.Client.IsLoggedIn(),
 		})
 	}
 	c.JSON(200, manageInstanceResponse{

@@ -393,6 +393,11 @@ func (w *whatsApp) createClient(deviceStore *store.Device, proxyInfo string) *wh
 	} else {
 		log.Infof("未设置代理")
 	}
+
+	//cli.MessengerConfig = &whatsmeow.MessengerConfig{
+	//	UserAgent: "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36",
+	//}
+
 	//_ = cli.SetProxyAddress("socks5://nMGjxasWCgfex3fJ:wifi;hk;;;@proxy.soax.com:9000")
 	return cli
 }
