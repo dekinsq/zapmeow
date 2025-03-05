@@ -701,6 +701,9 @@ const docTemplate = `{
                 "instance_id": {
                     "type": "string"
                 },
+                "logged_in": {
+                    "type": "boolean"
+                },
                 "proxy": {
                     "description": "Client     *whatsapp.Instance ` + "`" + `json:\"client\"` + "`" + `",
                     "type": "string"
